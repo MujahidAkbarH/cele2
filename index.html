@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commitment Day Celebration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+
+            <!-- 🔼 TOP ANIMAL ICONS -->
+            <div class="animal-row top-icons">
+                <img src="./asset/chick.png" class="animal-icon" alt="Cat">
+                <img src="./asset/panda.png" class="animal-icon" alt="Penguin">
+                <img src="./asset/penguin.png" class="animal-icon" alt="Panda">
+            </div>
+
+            <h1 class="title">Our Special Day</h1>
+
+            <div class="countdown-container">
+                <div id="countdown" class="countdown">
+                    <div class="time-unit">
+                        <span id="days" class="time-value">00</span>
+                        <span class="time-label">Days</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="hours" class="time-value">00</span>
+                        <span class="time-label">Hours</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="minutes" class="time-value">00</span>
+                        <span class="time-label">Minutes</span>
+                    </div>
+                    <div class="time-separator">:</div>
+                    <div class="time-unit">
+                        <span id="seconds" class="time-value">00</span>
+                        <span class="time-label">Seconds</span>
+                    </div>
+                </div>
+
+                <div id="countdown-message" class="countdown-message"></div>
+            </div>
+
+<!-- Button -->
+<button id="surprise-btn" class="surprise-btn">Click Me</button>
+
+<!-- Popup hidden by default -->
+<div id="popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; z-index:1000;">
+  <div style="background:rgb(172, 134, 134); padding:25px; border-radius:15px; text-align:center; position:relative; max-width:350px; width:80%; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+    <!-- Clean close button -->
+    <button id="close-popup" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:24px; cursor:pointer;">✖</button>
+    
+    <!-- Popup Content -->
+    <img src="./asset/giphy.gif" alt="Cute Cat" style="width:100px; margin-bottom:15px;">
+    <p style="font-size:16px; color:#333;">Coming Soon! 💖 <br>ruken zara sabr karey <br>itni bhi kia jaldi hai </p>
+  </div>
+</div>
+
+            <!-- 🔽 BOTTOM ANIMAL ICONS -->
+            <div class="animal-row bottom-icons">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" class="animal-icon" alt="Cat">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616409.png" class="animal-icon" alt="Penguin">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="animal-icon" alt="Panda">
+            </div>
+
+        </div>
+    </div>
+
+    <canvas id="cursor-canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
