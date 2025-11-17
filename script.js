@@ -1,5 +1,6 @@
 // Countdown Timer
-const targetDate = new Date('2025-11-23T12:00:00').getTime();
+const targetDate = new Date('2025-11-24T00:00:00').getTime();
+
 const countdownEl = document.getElementById('countdown');
 const countdownMessage = document.getElementById('countdown-message');
 const daysEl = document.getElementById('days');
