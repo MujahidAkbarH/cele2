@@ -356,23 +356,23 @@ for (let i = 0; i < 20; i++) {
 }
 
 animate();
-const btn = document.getElementById('surprise-btn');
-const popup = document.getElementById('popup');
-const closeBtn = document.getElementById('close-popup');
+// const btn = document.getElementById('surprise-btn');
+// const popup = document.getElementById('popup');
+// const closeBtn = document.getElementById('close-popup');
 
-// Show popup ONLY on click
-btn.addEventListener('click', () => {
-    popup.style.display = 'flex';
-});
+// // Show popup ONLY on click
+// btn.addEventListener('click', () => {
+//     popup.style.display = 'flex';
+// });
 
-// Close popup
-closeBtn.addEventListener('click', () => {
-    popup.style.display = 'none';
-});
+// // Close popup
+// closeBtn.addEventListener('click', () => {
+//     popup.style.display = 'none';
+// });
 
-// Close if click outside content
-popup.addEventListener('click', (e) => {
-    if(e.target === popup){
-        popup.style.display = 'none';
-    }
-});
+// // Close if click outside content
+// popup.addEventListener('click', (e) => {
+//     if(e.target === popup){
+//         popup.style.display = 'none';
+//     }
+// });

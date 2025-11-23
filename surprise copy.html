@@ -89,33 +89,257 @@
         .cake-container:active { transform: scale(0.98); }
 
         /* Cake SVG */
-        .cake { width: 300px; height: 300px; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2)); }
+        .cake { 
+            width: 300px; 
+            height: 300px; 
+            filter: drop-shadow(0 15px 40px rgba(139, 0, 0, 0.4)) 
+                    drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        }
 
         /* Candles */
-        .candle { position: absolute; width: 8px; height: 50px; background: #fff; border-radius: 4px; box-shadow: 0 0 10px rgba(255,255,255,0.5); transition: all 0.5s ease; }
+        .candle { 
+            position: absolute; 
+            width: 8px; 
+            height: 50px; 
+            background: linear-gradient(180deg, #fff 0%, #f5f5f5 50%, #e8e8e8 100%);
+            border-radius: 4px; 
+            box-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.6),
+                inset 0 0 5px rgba(255, 255, 255, 0.3);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
         .candle::before {
             content: '';
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            width: 12px; height: 12px;
-            background: radial-gradient(circle, #ffd700 0%, #ff8c00 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(255,215,0,0.8), 0 0 30px rgba(255,140,0,0.6);
+            width: 14px; 
+            height: 18px;
+            background: radial-gradient(
+                ellipse at center,
+                #fff9c4 0%,
+                #ffd700 25%,
+                #ff8c00 60%,
+                #ff6b35 100%
+            );
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.9),
+                0 0 40px rgba(255, 140, 0, 0.7),
+                0 0 60px rgba(255, 107, 53, 0.4),
+                0 -2px 8px rgba(255, 215, 0, 0.8);
             animation: flicker 1.5s infinite ease-in-out;
+            z-index: 2;
         }
-        .candle.blown-out::before { opacity: 0; transform: translateX(-50%) scale(0); animation: none; }
-        .candle.blown-out { opacity: 0.5; }
+        
+        .candle::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(
+                circle,
+                rgba(255, 215, 0, 0.3) 0%,
+                rgba(255, 140, 0, 0.2) 40%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            animation: glow-pulse 1.5s infinite ease-in-out;
+            pointer-events: none;
+        }
+        
+        .candle.blown-out::before { 
+            opacity: 0; 
+            transform: translateX(-50%) scale(0); 
+            animation: blow-out 0.4s ease-out forwards;
+        }
+        
+        .candle.blown-out::after {
+            opacity: 0;
+            animation: none;
+        }
+        
+        .candle.blown-out { 
+            opacity: 0.4;
+            filter: brightness(0.7);
+            box-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.2),
+                inset 0 0 3px rgba(0, 0, 0, 0.2);
+        }
+        
         @keyframes flicker {
-            0%,100% { transform: translateX(-50%) scale(1); opacity:1; }
-            25% { transform: translateX(-50%) scale(0.9) translateX(-1px); opacity:0.9; }
-            50% { transform: translateX(-50%) scale(1.1) translateX(1px); opacity:1; }
-            75% { transform: translateX(-50%) scale(0.95) translateX(-0.5px); opacity:0.95; }
+            0%, 100% { 
+                transform: translateX(-50%) scale(1) translateY(0); 
+                opacity: 1; 
+            }
+            25% { 
+                transform: translateX(-50%) scale(0.92) translateX(-1px) translateY(-1px); 
+                opacity: 0.95; 
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.08) translateX(1px) translateY(1px); 
+                opacity: 1; 
+            }
+            75% { 
+                transform: translateX(-50%) scale(0.96) translateX(-0.5px) translateY(-0.5px); 
+                opacity: 0.98; 
+            }
         }
+        
+        @keyframes glow-pulse {
+            0%, 100% { 
+                transform: translateX(-50%) scale(1); 
+                opacity: 0.4; 
+            }
+            50% { 
+                transform: translateX(-50%) scale(1.2); 
+                opacity: 0.6; 
+            }
+        }
+        
+        @keyframes blow-out {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(-50%) scale(1.3);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0);
+            }
+        }
+        
+        .candle-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+            animation: sparkle-pop 0.6s ease-out forwards;
+        }
+        
+        @keyframes sparkle-pop {
+            0% {
+                opacity: 1;
+                transform: scale(0) translate(0, 0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5) translate(var(--sparkle-x, 0), var(--sparkle-y, -20px));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translate(var(--sparkle-x, 0), var(--sparkle-y, -40px));
+            }
+        }
+        
         .candle1 { top: 60px; left: 120px; }
         .candle2 { top: 60px; left: 146px; }
         .candle3 { top: 60px; left: 172px; }
+        
+        /* Romantic final message */
+        .romantic-message {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #ff69b4;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 
+                0 0 20px rgba(255, 105, 180, 0.8),
+                0 0 40px rgba(255, 105, 180, 0.6),
+                0 0 60px rgba(255, 105, 180, 0.4),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: message-fade-in 0.8s ease-out forwards;
+            white-space: nowrap;
+            z-index: 100;
+        }
+        
+        @keyframes message-fade-in {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        .romantic-message.fade-out {
+            animation: message-fade-out 0.8s ease-out forwards;
+        }
+        
+        @keyframes message-fade-out {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+        
+        /* Romantic particles container */
+        .romantic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .romantic-heart,
+        .romantic-petal {
+            position: absolute;
+            pointer-events: none;
+            animation: float-up 6s ease-out forwards;
+        }
+        
+        .romantic-heart {
+            font-size: 20px;
+            color: #ff69b4;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+        }
+        
+        .romantic-petal {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #ffb6c1 0%, #ffc0cb 100%);
+            border-radius: 50% 0 50% 50%;
+            transform: rotate(45deg);
+            box-shadow: 0 0 8px rgba(255, 182, 193, 0.6);
+        }
+        
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(var(--drift-x, 0)) scale(0.5) rotate(var(--rotate, 360deg));
+            }
+        }
 
         /* Canvas for cursor effects */
         #cursor-canvas { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
@@ -182,6 +406,7 @@
             .candle3 { top: 50px; left: 144px; }
             .floating-heart { font-size: 80px !important; }
             .surprise-btn { padding: 15px 40px; font-size: 1.1rem; }
+            .romantic-message { font-size: 1rem; top: -70px; }
         }
         @media (max-width: 480px) {
             .main-text { font-size: 2rem; margin-bottom: 30px; letter-spacing: 1px; }
@@ -190,6 +415,7 @@
             .candle2 { top: 40px; left: 98px; }
             .candle3 { top: 40px; left: 116px; }
             .surprise-btn { padding: 12px 30px; font-size: 1rem; }
+            .romantic-message { font-size: 0.9rem; top: -60px; white-space: normal; max-width: 90%; }
         }
     </style>
 </head>
@@ -218,43 +444,110 @@
         
         <div class="cake-container" id="cake-container">
             <svg class="cake" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                <!-- Cake base layers -->
                 <defs>
+                    <!-- Red Velvet Cake Gradient - Rich and Deep -->
                     <linearGradient id="cakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#8B0000;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#7B0000;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#8B0000;stop-opacity:1" />
                         <stop offset="50%" style="stop-color:#A52A2A;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
+                        <stop offset="70%" style="stop-color:#8B0000;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#6B0000;stop-opacity:1" />
                     </linearGradient>
+                    
+                    <!-- Enhanced Frosting Gradient - Creamy and Romantic -->
                     <linearGradient id="frostingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+                        <stop offset="0%" style="stop-color:#FFF0F5;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#FFE4E1;stop-opacity:1" />
+                        <stop offset="60%" style="stop-color:#FFB6C1;stop-opacity:1" />
                         <stop offset="100%" style="stop-color:#FFC0CB;stop-opacity:1" />
                     </linearGradient>
+                    
+                    <!-- Frosting Highlight for Realistic Look -->
+                    <linearGradient id="frostingHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.6" />
+                        <stop offset="50%" style="stop-color:#FFE4E1;stop-opacity:0.4" />
+                        <stop offset="100%" style="stop-color:#FFB6C1;stop-opacity:0.2" />
+                    </linearGradient>
+                    
+                    <!-- Cake Shadow for Depth -->
+                    <radialGradient id="cakeShadow" cx="50%" cy="50%">
+                        <stop offset="0%" style="stop-color:#000000;stop-opacity:0.3" />
+                        <stop offset="100%" style="stop-color:#000000;stop-opacity:0" />
+                    </radialGradient>
+                    
+                    <!-- Glossy Shine Effect -->
+                    <linearGradient id="glossShine" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.3" />
+                        <stop offset="50%" style="stop-color:#FFFFFF;stop-opacity:0.1" />
+                        <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0" />
+                    </linearGradient>
+                    
+                    <!-- Soft Glow Filter -->
+                    <filter id="softGlow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
                 </defs>
                 
-                <!-- Bottom layer -->
-                <ellipse cx="150" cy="250" rx="100" ry="30" fill="url(#cakeGradient)" />
-                <rect x="50" y="200" width="200" height="50" fill="url(#cakeGradient)" rx="10" />
+                <!-- Shadow beneath cake -->
+                <ellipse cx="150" cy="270" rx="110" ry="25" fill="url(#cakeShadow)" opacity="0.5" />
+                
+                <!-- Bottom layer - Largest -->
+                <ellipse cx="150" cy="250" rx="100" ry="30" fill="url(#cakeGradient)" filter="url(#softGlow)" />
+                <rect x="50" y="200" width="200" height="50" fill="url(#cakeGradient)" rx="12" ry="12" filter="url(#softGlow)" />
+                <!-- Glossy shine on bottom layer -->
+                <ellipse cx="150" cy="200" rx="95" ry="5" fill="url(#glossShine)" opacity="0.4" />
                 
                 <!-- Middle layer -->
-                <ellipse cx="150" cy="180" rx="80" ry="25" fill="url(#cakeGradient)" />
-                <rect x="70" y="150" width="160" height="30" fill="url(#cakeGradient)" rx="8" />
+                <ellipse cx="150" cy="180" rx="80" ry="25" fill="url(#cakeGradient)" filter="url(#softGlow)" />
+                <rect x="70" y="150" width="160" height="30" fill="url(#cakeGradient)" rx="10" ry="10" filter="url(#softGlow)" />
+                <!-- Glossy shine on middle layer -->
+                <ellipse cx="150" cy="150" rx="75" ry="4" fill="url(#glossShine)" opacity="0.4" />
                 
-                <!-- Top layer -->
-                <ellipse cx="150" cy="120" rx="60" ry="20" fill="url(#cakeGradient)" />
-                <rect x="90" y="100" width="120" height="20" fill="url(#cakeGradient)" rx="6" />
+                <!-- Top layer - Smallest -->
+                <ellipse cx="150" cy="120" rx="60" ry="20" fill="url(#cakeGradient)" filter="url(#softGlow)" />
+                <rect x="90" y="100" width="120" height="20" fill="url(#cakeGradient)" rx="8" ry="8" filter="url(#softGlow)" />
+                <!-- Glossy shine on top layer -->
+                <ellipse cx="150" cy="100" rx="55" ry="3" fill="url(#glossShine)" opacity="0.4" />
                 
-                <!-- Frosting decorations -->
-                <ellipse cx="150" cy="100" rx="60" ry="8" fill="url(#frostingGradient)" />
-                <ellipse cx="150" cy="150" rx="80" ry="10" fill="url(#frostingGradient)" />
-                <ellipse cx="150" cy="200" rx="100" ry="12" fill="url(#frostingGradient)" />
+                <!-- Frosting decorations - Top layer -->
+                <ellipse cx="150" cy="100" rx="60" ry="10" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="150" cy="98" rx="58" ry="6" fill="url(#frostingHighlight)" opacity="0.6" />
                 
-                <!-- Frosting drops -->
-                <circle cx="100" cy="105" r="4" fill="url(#frostingGradient)" />
-                <circle cx="200" cy="105" r="4" fill="url(#frostingGradient)" />
-                <circle cx="80" cy="155" r="5" fill="url(#frostingGradient)" />
-                <circle cx="220" cy="155" r="5" fill="url(#frostingGradient)" />
-                <circle cx="60" cy="205" r="6" fill="url(#frostingGradient)" />
-                <circle cx="240" cy="205" r="6" fill="url(#frostingGradient)" />
+                <!-- Frosting decorations - Middle layer -->
+                <ellipse cx="150" cy="150" rx="80" ry="12" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="150" cy="148" rx="78" ry="8" fill="url(#frostingHighlight)" opacity="0.6" />
+                
+                <!-- Frosting decorations - Bottom layer -->
+                <ellipse cx="150" cy="200" rx="100" ry="15" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="150" cy="198" rx="98" ry="10" fill="url(#frostingHighlight)" opacity="0.6" />
+                
+                <!-- Realistic frosting drops/swirls - Top -->
+                <ellipse cx="100" cy="105" rx="5" ry="6" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="100" cy="103" rx="4" ry="4" fill="url(#frostingHighlight)" opacity="0.7" />
+                <ellipse cx="200" cy="105" rx="5" ry="6" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="200" cy="103" rx="4" ry="4" fill="url(#frostingHighlight)" opacity="0.7" />
+                
+                <!-- Realistic frosting drops/swirls - Middle -->
+                <ellipse cx="80" cy="155" rx="6" ry="7" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="80" cy="153" rx="5" ry="5" fill="url(#frostingHighlight)" opacity="0.7" />
+                <ellipse cx="220" cy="155" rx="6" ry="7" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="220" cy="153" rx="5" ry="5" fill="url(#frostingHighlight)" opacity="0.7" />
+                
+                <!-- Realistic frosting drops/swirls - Bottom -->
+                <ellipse cx="60" cy="205" rx="7" ry="8" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="60" cy="203" rx="6" ry="6" fill="url(#frostingHighlight)" opacity="0.7" />
+                <ellipse cx="240" cy="205" rx="7" ry="8" fill="url(#frostingGradient)" filter="url(#softGlow)" />
+                <ellipse cx="240" cy="203" rx="6" ry="6" fill="url(#frostingHighlight)" opacity="0.7" />
+                
+                <!-- Additional small decorative frosting dots -->
+                <circle cx="130" cy="102" r="3" fill="url(#frostingGradient)" opacity="0.8" />
+                <circle cx="170" cy="102" r="3" fill="url(#frostingGradient)" opacity="0.8" />
+                <circle cx="110" cy="152" r="3.5" fill="url(#frostingGradient)" opacity="0.8" />
+                <circle cx="190" cy="152" r="3.5" fill="url(#frostingGradient)" opacity="0.8" />
             </svg>
             
             <!-- Candles -->
@@ -540,35 +833,153 @@
             }
         }
 
-        // Cake click handler (blow candles)
+        // Cake and candle click handlers
         const cakeContainer = document.getElementById('cake-container');
         const candles = ['candle1', 'candle2', 'candle3'];
         let candlesBlown = 0;
+        let blownCandles = new Set();
 
-        cakeContainer.addEventListener('click', () => {
-            if (candlesBlown < candles.length) {
-                const candle = document.getElementById(candles[candlesBlown]);
-                candle.classList.add('blown-out');
-                candlesBlown++;
-                
-                // Create confetti burst
-                const rect = cakeContainer.getBoundingClientRect();
-                createConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
-                
-                // Add extra sparkles
-                for (let i = 0; i < 20; i++) {
-                    sparkles.push({
-                        x: rect.left + rect.width / 2,
-                        y: rect.top + rect.height / 2,
-                        vx: (Math.random() - 0.5) * 15,
-                        vy: (Math.random() - 0.5) * 15,
-                        size: Math.random() * 8 + 4,
-                        opacity: 1,
-                        life: 40
-                    });
+        // Individual candle click handler
+        candles.forEach((candleId) => {
+            const candle = document.getElementById(candleId);
+            candle.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent cake container click
+                blowOutCandle(candleId);
+            });
+        });
+
+        // Cake container click (backup - blows next unblown candle)
+        cakeContainer.addEventListener('click', (e) => {
+            // Only trigger if clicking directly on container, not on candles
+            if (e.target === cakeContainer || e.target.classList.contains('cake')) {
+                const nextCandle = candles.find(id => !blownCandles.has(id));
+                if (nextCandle) {
+                    blowOutCandle(nextCandle);
                 }
             }
         });
+
+        function blowOutCandle(candleId) {
+            if (blownCandles.has(candleId)) return; // Already blown
+            
+            const candle = document.getElementById(candleId);
+            blownCandles.add(candleId);
+            candlesBlown++;
+            
+            // Add blown-out class
+            candle.classList.add('blown-out');
+            
+            // Get candle position for effects
+            const rect = candle.getBoundingClientRect();
+            const candleX = rect.left + rect.width / 2;
+            const candleY = rect.top;
+            
+            // Create sparkle pop effect
+            createSparklePop(candleX, candleY);
+            
+            // Add extra sparkles
+            for (let i = 0; i < 15; i++) {
+                sparkles.push({
+                    x: candleX,
+                    y: candleY,
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: (Math.random() - 0.5) * 12,
+                    size: Math.random() * 6 + 3,
+                    opacity: 1,
+                    life: 35
+                });
+            }
+            
+            // Check if all candles are blown
+            if (candlesBlown === candles.length) {
+                setTimeout(() => {
+                    showRomanticEffect();
+                }, 500);
+            }
+        }
+
+        function createSparklePop(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'candle-sparkle';
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 20 + Math.random() * 15;
+                const sparkleX = Math.cos(angle) * distance;
+                const sparkleY = Math.sin(angle) * distance;
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.setProperty('--sparkle-x', sparkleX + 'px');
+                sparkle.style.setProperty('--sparkle-y', sparkleY + 'px');
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 600);
+            }
+        }
+
+        function showRomanticEffect() {
+            const cakeRect = cakeContainer.getBoundingClientRect();
+            const centerX = cakeRect.left + cakeRect.width / 2;
+            const centerY = cakeRect.top + cakeRect.height / 2;
+            
+            // Create romantic message
+            const message = document.createElement('div');
+            message.className = 'romantic-message';
+            message.textContent = 'You blew all three… Happy Commitment Day, dost ❤️';
+            cakeContainer.style.position = 'relative';
+            cakeContainer.appendChild(message);
+            
+            // Fade out message after 4 seconds
+            setTimeout(() => {
+                message.classList.add('fade-out');
+                setTimeout(() => {
+                    message.remove();
+                }, 800);
+            }, 4000);
+            
+            // Create romantic particles container
+            const particlesContainer = document.createElement('div');
+            particlesContainer.className = 'romantic-particles';
+            document.body.appendChild(particlesContainer);
+            
+            // Create floating hearts and petals
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    // Heart
+                    const heart = document.createElement('div');
+                    heart.className = 'romantic-heart';
+                    heart.textContent = '❤️';
+                    heart.style.left = centerX + (Math.random() - 0.5) * 200 + 'px';
+                    heart.style.top = centerY + 'px';
+                    heart.style.setProperty('--drift-x', (Math.random() - 0.5) * 100 + 'px');
+                    heart.style.setProperty('--rotate', Math.random() * 720 + 'deg');
+                    particlesContainer.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 100);
+            }
+            
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    // Petal
+                    const petal = document.createElement('div');
+                    petal.className = 'romantic-petal';
+                    petal.style.left = centerX + (Math.random() - 0.5) * 200 + 'px';
+                    petal.style.top = centerY + 'px';
+                    petal.style.setProperty('--drift-x', (Math.random() - 0.5) * 120 + 'px');
+                    petal.style.setProperty('--rotate', Math.random() * 1080 + 'deg');
+                    particlesContainer.appendChild(petal);
+                    
+                    setTimeout(() => petal.remove(), 6000);
+                }, i * 120);
+            }
+            
+            // Remove particles container after animation
+            setTimeout(() => {
+                particlesContainer.remove();
+            }, 6000);
+        }
 
         // Surprise button handler (confetti + small pulse)
         const surpriseBtn = document.getElementById('surprise-btn');
